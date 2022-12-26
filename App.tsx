@@ -5,12 +5,18 @@ import {
   Image,
   Pressable,
   SafeAreaView,
+  StatusBar,
   StyleSheet,
   View,
 } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import spacing from './src/theme/spacing';
 import { Text } from './src/components/text/Text';
+import { NavigationContainer, DarkTheme } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Home from './src/screens/Home';
+
+const Stack = createNativeStackNavigator();
 
 SplashScreen.preventAutoHideAsync();
 
@@ -30,11 +36,14 @@ export default function App() {
     return null;
   }
   return (
-    <SafeAreaView onLayout={onLayoutRootView} style={styles.container}>
-      <View>
-        <Text preset="h1">Hi</Text>
-      </View>
-    </SafeAreaView>
+    <>
+      <NavigationContainer onReady={onLayoutRootView}>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Home" component={Home} />
+        </Stack.Navigator>
+      </NavigationContainer>
+      <StatusBar barStyle="light-content" />
+    </>
   );
 }
 
