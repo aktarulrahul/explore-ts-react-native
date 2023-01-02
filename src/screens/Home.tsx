@@ -19,9 +19,7 @@ export default function Home({ navigation }) {
         renderItem={({ item }) => {
           return (
             <Pressable
-              onPress={() =>
-                navigation.navigate('Details', { planetName: item.name })
-              }
+              onPress={() => navigation.navigate('Details', { planet: item })}
               style={styles.item}
             >
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
