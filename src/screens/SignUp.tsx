@@ -9,24 +9,23 @@ import {
 } from 'react-native';
 import React from 'react';
 import Button from '../components/Button';
+import Input from '../components/Input';
 
 const SignUp = ({ navigation }) => {
   const handlePress = () => {};
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Image
-        source={require('../../assets/empty-state.jpg')}
-        style={styles.image}
-        resizeMode="cover"
-      />
-      <Text style={styles.text}>Never forget your notes</Text>
+      <Text style={styles.text}>Sign Up</Text>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder="Email" />
-        <TextInput
-          secureTextEntry
-          style={styles.input}
-          placeholder="Password"
-        />
+        <Input placeholder="Email" />
+        <Input secureTextEntry placeholder="Password" />
+        <Input placeholder="Full Name" />
+        <Input placeholder="Age" />
+        <Pressable>
+          <View style={styles.outerCircle}>
+            <View style={styles.innerCircle}></View>
+          </View>
+        </Pressable>
       </View>
       <View
         style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}
@@ -71,13 +70,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginTop: 16,
   },
-
-  input: {
-    height: 48,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 4,
-    paddingHorizontal: 16,
-    marginBottom: 16,
-  },
+  outerCircle: {},
+  innerCircle: {},
 });

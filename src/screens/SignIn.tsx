@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import Button from '../components/Button';
+import Input from '../components/Input';
 
 const SignIn = ({ navigation }) => {
   const handlePress = () => {};
@@ -21,12 +22,8 @@ const SignIn = ({ navigation }) => {
       />
       <Text style={styles.text}>Never forget your notes</Text>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder="Email" />
-        <TextInput
-          secureTextEntry
-          style={styles.input}
-          placeholder="Password"
-        />
+        <Input placeholder="Email" />
+        <Input secureTextEntry placeholder="Password" />
       </View>
       <View
         style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}
@@ -70,14 +67,5 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginHorizontal: 16,
     marginTop: 16,
-  },
-
-  input: {
-    height: 48,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 4,
-    paddingHorizontal: 16,
-    marginBottom: 16,
   },
 });
