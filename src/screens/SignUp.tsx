@@ -11,7 +11,11 @@ import React from 'react';
 import Button from '../components/Button';
 import Input from '../components/Input';
 
+const genderOptions = ['Male', 'Female'];
+
 const SignUp = ({ navigation }) => {
+  const [selectedGender, setSelectedGender] = React.useState('');
+  // const selected = true;
   const handlePress = () => {};
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -21,11 +25,32 @@ const SignUp = ({ navigation }) => {
         <Input secureTextEntry placeholder="Password" />
         <Input placeholder="Full Name" />
         <Input placeholder="Age" />
-        <Pressable>
-          <View style={styles.outerCircle}>
-            <View style={styles.innerCircle}></View>
-          </View>
-        </Pressable>
+        <Text style={{ marginVertical: 16 }}>Select Gender</Text>
+        {genderOptions.map((option, index) => {
+          const selected = selectedGender === option;
+          return (
+            <Pressable
+              key={`sign-up-gender-option-${index}-${option}`}
+              style={styles.radioContainer}
+              onPress={() => setSelectedGender(option)}
+            >
+              <View
+                style={[
+                  styles.outerCircle,
+                  !!selected && styles.selectedOuterCircle,
+                ]}
+              >
+                <View
+                  style={[
+                    styles.innerCircle,
+                    !!selected && styles.selectedInnerCircle,
+                  ]}
+                />
+              </View>
+              <Text style={styles.radioText}>{option}</Text>
+            </Pressable>
+          );
+        })}
       </View>
       <View
         style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}
@@ -70,6 +95,34 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginTop: 16,
   },
-  outerCircle: {},
-  innerCircle: {},
+  radioContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  radioText: {},
+  outerCircle: {
+    height: 30,
+    width: 30,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: '#cfcfcf',
+    marginRight: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  selectedOuterCircle: {
+    borderColor: 'orange',
+  },
+  innerCircle: {
+    height: 16,
+    width: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#cfcfcf',
+  },
+  selectedInnerCircle: {
+    backgroundColor: 'orange',
+    borderColor: 'orange',
+  },
 });
