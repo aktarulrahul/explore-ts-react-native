@@ -4,14 +4,20 @@ import React from 'react';
 interface InputProps {
   placeholder: string;
   secureTextEntry?: boolean;
+  onChangeText?: (text: string) => void;
 }
 
-const Input: React.FC<InputProps> = ({ placeholder, secureTextEntry }) => {
+const Input: React.FC<InputProps> = ({
+  placeholder,
+  secureTextEntry,
+  onChangeText,
+}) => {
   return (
     <TextInput
       style={styles.input}
       placeholder={placeholder}
       secureTextEntry={secureTextEntry || false}
+      onChangeText={onChangeText}
     />
   );
 };

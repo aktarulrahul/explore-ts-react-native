@@ -17,6 +17,19 @@ import Create from './src/screens/Create';
 import Edit from './src/screens/Edit';
 import SignIn from './src/screens/SignIn';
 import SignUp from './src/screens/SignUp';
+import { initializeApp } from 'firebase/app';
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyDBuAqeFZbodh55Ys8Av_RlXLUALmms5KE',
+  authDomain: 'rn-note-app-44157.firebaseapp.com',
+  projectId: 'rn-note-app-44157',
+  storageBucket: 'rn-note-app-44157.appspot.com',
+  messagingSenderId: '96964369321',
+  appId: '1:96964369321:web:a82439192f2bae2363c2b8',
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
 const AppTheme = {
   ...DefaultTheme,

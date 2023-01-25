@@ -10,9 +10,18 @@ import {
 import React from 'react';
 import Button from '../components/Button';
 import Input from '../components/Input';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+
+const Auth = getAuth();
 
 const SignIn = ({ navigation }) => {
-  const handlePress = () => {};
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const handlePress = () => {
+    signInWithEmailAndPassword(Auth, email, password)
+      .then((userCredential) => console.log(userCredential))
+      .catch((error) => console.log(error.message));
+  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Image
@@ -22,8 +31,12 @@ const SignIn = ({ navigation }) => {
       />
       <Text style={styles.text}>Never forget your notes</Text>
       <View style={styles.inputContainer}>
-        <Input placeholder="Email" />
-        <Input secureTextEntry placeholder="Password" />
+        <Input placeholder="Email" onChangeText={(text) => setEmail(text)} />
+        <Input
+          secureTextEntry
+          placeholder="Password"
+          onChangeText={(text) => setPassword(text)}
+        />
       </View>
       <View
         style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}

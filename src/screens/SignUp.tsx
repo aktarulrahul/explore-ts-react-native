@@ -10,21 +10,39 @@ import {
 import React from 'react';
 import Button from '../components/Button';
 import Input from '../components/Input';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+
+const Auth = getAuth();
 
 const genderOptions = ['Male', 'Female'];
 
 const SignUp = ({ navigation }) => {
   const [selectedGender, setSelectedGender] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [fullName, setFullName] = React.useState('');
+  const [age, setAge] = React.useState('');
   // const selected = true;
-  const handlePress = () => {};
+  const handleSignUp = () => {
+    createUserWithEmailAndPassword(Auth, email, password)
+      .then((userCredential) => console.log(userCredential))
+      .catch((error) => console.log(error.message));
+  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Text style={styles.text}>Sign Up</Text>
       <View style={styles.inputContainer}>
-        <Input placeholder="Email" />
-        <Input secureTextEntry placeholder="Password" />
-        <Input placeholder="Full Name" />
-        <Input placeholder="Age" />
+        <Input placeholder="Email" onChangeText={(text) => setEmail(text)} />
+        <Input
+          secureTextEntry
+          placeholder="Password"
+          onChangeText={(text) => setPassword(text)}
+        />
+        <Input
+          placeholder="Full Name"
+          onChangeText={(text) => setFullName(text)}
+        />
+        <Input placeholder="Age" onChangeText={(text) => setAge(text)} />
         <Text style={{ marginVertical: 16 }}>Select Gender</Text>
         {genderOptions.map((option, index) => {
           const selected = selectedGender === option;
@@ -57,7 +75,7 @@ const SignUp = ({ navigation }) => {
       >
         <Button
           title="Sign Up"
-          onPress={handlePress}
+          onPress={handleSignUp}
           customStyles={{ alignSelf: 'center', marginBottom: 60 }}
         />
         <Pressable
