@@ -11,6 +11,8 @@ import React from 'react';
 import Button from '../components/Button';
 import Input from '../components/Input';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import firebaseInitialize from '../firebase/initialize.firebase';
+firebaseInitialize();
 
 const Auth = getAuth();
 

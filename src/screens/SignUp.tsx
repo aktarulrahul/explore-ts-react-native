@@ -11,6 +11,19 @@ import React from 'react';
 import Button from '../components/Button';
 import Input from '../components/Input';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import firebaseInitialize, { db } from '../firebase/initialize.firebase';
+import {
+  addDoc,
+  collection,
+  getDocs,
+  doc,
+  onSnapshot,
+  query,
+  where,
+  getFirestore,
+} from 'firebase/firestore';
+import { database } from '../../App';
+firebaseInitialize();
 
 const Auth = getAuth();
 
@@ -22,11 +35,30 @@ const SignUp = ({ navigation }) => {
   const [password, setPassword] = React.useState('');
   const [fullName, setFullName] = React.useState('');
   const [age, setAge] = React.useState('');
+
   // const selected = true;
-  const handleSignUp = () => {
-    createUserWithEmailAndPassword(Auth, email, password)
-      .then((userCredential) => console.log(userCredential))
-      .catch((error) => console.log(error.message));
+  const handleSignUp = async () => {
+    try {
+      // 1. Create a user in Firebase Auth
+      const result = await createUserWithEmailAndPassword(
+        Auth,
+        email,
+        password
+      );
+      console.log(result);
+      // 2. Create a user in Firestore
+      await addDoc(collection(database, 'users'), {
+        name: fullName,
+        email: email,
+        age: age,
+        gender: selectedGender,
+        uid: result.user.uid,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
+    // 3. Navigate to the Home screen
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>

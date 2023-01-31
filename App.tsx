@@ -18,6 +18,7 @@ import Edit from './src/screens/Edit';
 import SignIn from './src/screens/SignIn';
 import SignUp from './src/screens/SignUp';
 import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDBuAqeFZbodh55Ys8Av_RlXLUALmms5KE',
@@ -30,6 +31,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+export const database = getFirestore(app);
 
 const AppTheme = {
   ...DefaultTheme,
