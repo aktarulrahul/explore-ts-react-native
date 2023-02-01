@@ -1,7 +1,11 @@
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
-const Home = () => {
+interface IPros {
+  user: any;
+}
+
+const Home: React.FC<IPros> = ({ user }) => {
   return (
     <SafeAreaView>
       <Text>Home</Text>

@@ -12,3 +12,4 @@
 - yarn add @react-navigation/native-stack
 - npx expo install expo-splash-screen
 - yarn add firebase@9.7.0
+- yarn add react-native-flash-message

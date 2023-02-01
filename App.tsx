@@ -1,6 +1,7 @@
 import { useFonts } from 'expo-font';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
+  ActivityIndicator,
   Button,
   Image,
   Pressable,
@@ -19,6 +20,8 @@ import SignIn from './src/screens/SignIn';
 import SignUp from './src/screens/SignUp';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
+import FlashMessage from 'react-native-flash-message';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDBuAqeFZbodh55Ys8Av_RlXLUALmms5KE',
@@ -32,6 +35,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const database = getFirestore(app);
+export const auth = getAuth();
 
 const AppTheme = {
   ...DefaultTheme,
@@ -44,13 +48,35 @@ const AppTheme = {
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const user = false;
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const authSubscriber = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      if (loading) {
+        setLoading(false);
+      }
+    });
+    return authSubscriber;
+  }, []);
+
+  if (loading) {
+    return;
+    <SafeAreaView
+      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+    >
+      <ActivityIndicator color="blue" size="large" />
+    </SafeAreaView>;
+  }
   return (
     <NavigationContainer theme={AppTheme}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {user ? (
           <>
-            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Home" options={{ headerShown: false }}>
+              {(props) => <Home {...props} user={user} />}
+            </Stack.Screen>
             <Stack.Screen name="Create" component={Create} />
             <Stack.Screen name="Edit" component={Edit} />
           </>
@@ -61,6 +87,7 @@ export default function App() {
           </>
         )}
       </Stack.Navigator>
+      <FlashMessage position="top" />
     </NavigationContainer>
   );
 }

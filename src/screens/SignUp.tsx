@@ -23,6 +23,7 @@ import {
   getFirestore,
 } from 'firebase/firestore';
 import { database } from '../../App';
+import { showMessage } from 'react-native-flash-message';
 firebaseInitialize();
 
 const Auth = getAuth();
@@ -46,6 +47,14 @@ const SignUp = ({ navigation }) => {
         password
       );
       console.log(result);
+      showMessage({
+        message: 'User Created',
+        description: 'User Created in Firebase Auth',
+        type: 'success',
+        onPress: () => {
+          /* THIS FUNC/CB WILL BE CALLED AFTER MESSAGE PRESS */
+        },
+      });
       // 2. Create a user in Firestore
       await addDoc(collection(database, 'users'), {
         name: fullName,
@@ -53,6 +62,14 @@ const SignUp = ({ navigation }) => {
         age: age,
         gender: selectedGender,
         uid: result.user.uid,
+      });
+      showMessage({
+        message: 'User DB Updated',
+        description: 'User Created in Firestore',
+        type: 'success',
+        onPress: () => {
+          /* THIS FUNC/CB WILL BE CALLED AFTER MESSAGE PRESS */
+        },
       });
     } catch (error) {
       console.log(error);
