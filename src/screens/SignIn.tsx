@@ -33,11 +33,16 @@ const SignIn = ({ navigation }) => {
       />
       <Text style={styles.text}>Never forget your notes</Text>
       <View style={styles.inputContainer}>
-        <Input placeholder="Email" onChangeText={(text) => setEmail(text)} />
+        <Input
+          placeholder="Email"
+          onChangeText={(text) => setEmail(text)}
+          autoCapitalize="none"
+        />
         <Input
           secureTextEntry
           placeholder="Password"
           onChangeText={(text) => setPassword(text)}
+          autoCapitalize="none"
         />
       </View>
       <View

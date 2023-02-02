@@ -81,15 +81,21 @@ const SignUp = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1 }}>
       <Text style={styles.text}>Sign Up</Text>
       <View style={styles.inputContainer}>
-        <Input placeholder="Email" onChangeText={(text) => setEmail(text)} />
+        <Input
+          placeholder="Email"
+          onChangeText={(text) => setEmail(text)}
+          autoCapitalize="none"
+        />
         <Input
           secureTextEntry
           placeholder="Password"
           onChangeText={(text) => setPassword(text)}
+          autoCapitalize="none"
         />
         <Input
           placeholder="Full Name"
           onChangeText={(text) => setFullName(text)}
+          autoCapitalize="words"
         />
         <Input placeholder="Age" onChangeText={(text) => setAge(text)} />
         <Text style={{ marginVertical: 16 }}>Select Gender</Text>

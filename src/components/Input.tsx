@@ -5,12 +5,14 @@ interface InputProps {
   placeholder: string;
   secureTextEntry?: boolean;
   onChangeText?: (text: string) => void;
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
 }
 
 const Input: React.FC<InputProps> = ({
   placeholder,
   secureTextEntry,
   onChangeText,
+  autoCapitalize,
 }) => {
   return (
     <TextInput
@@ -18,6 +20,7 @@ const Input: React.FC<InputProps> = ({
       placeholder={placeholder}
       secureTextEntry={secureTextEntry || false}
       onChangeText={onChangeText}
+      autoCapitalize={autoCapitalize}
     />
   );
 };
