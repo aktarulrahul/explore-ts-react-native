@@ -6,6 +6,7 @@ interface InputProps {
   secureTextEntry?: boolean;
   onChangeText?: (text: string) => void;
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
+  multiline?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -13,6 +14,7 @@ const Input: React.FC<InputProps> = ({
   secureTextEntry,
   onChangeText,
   autoCapitalize,
+  multiline,
 }) => {
   return (
     <TextInput
@@ -21,6 +23,7 @@ const Input: React.FC<InputProps> = ({
       secureTextEntry={secureTextEntry || false}
       onChangeText={onChangeText}
       autoCapitalize={autoCapitalize}
+      multiline={multiline}
     />
   );
 };
