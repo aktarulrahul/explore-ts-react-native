@@ -1,7 +1,16 @@
-import { StyleSheet, Text, View, SafeAreaView, Pressable } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  Pressable,
+  ActivityIndicator,
+} from 'react-native';
 import React from 'react';
 import Input from '../components/Input';
 import Button from '../components/Button';
+import { addDoc, collection } from 'firebase/firestore';
+import { database } from '../../App';
 
 const noteColorOptions = [
   { label: 'Blue', value: 'blue' },
@@ -9,12 +18,34 @@ const noteColorOptions = [
   { label: 'Red', value: 'red' },
 ];
 
-const Create = () => {
+interface IPros {
+  user: any;
+  navigation: any;
+  route: any;
+}
+
+const Create: React.FC<IPros> = ({ navigation, route, user }) => {
+  const [isLoading, setIsLoading] = React.useState(false);
   const [title, setTitle] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [noteColor, setNoteColor] = React.useState('blue');
 
-  const handleNoteCreate = () => {};
+  const handleNoteCreate = async () => {
+    setIsLoading(true);
+    try {
+      await addDoc(collection(database, 'notes'), {
+        title,
+        description,
+        color: noteColor,
+        uid: user.uid,
+      });
+      setIsLoading(false);
+    } catch (error) {
+      console.log('error--->', error);
+      setIsLoading(false);
+    }
+  };
+  console.log('user---------> From Create Page--------->', user);
   return (
     <SafeAreaView style={styles.container}>
       <Text>Create</Text>
@@ -56,11 +87,19 @@ const Create = () => {
           </Pressable>
         );
       })}
-      <Button
-        title="Create"
-        onPress={handleNoteCreate}
-        customStyles={{ alignSelf: 'center', marginBottom: 60 }}
-      />
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <Button
+          title="Create"
+          onPress={handleNoteCreate}
+          customStyles={{
+            alignSelf: 'center',
+            marginVertical: 60,
+            width: '100%',
+          }}
+        />
+      )}
     </SafeAreaView>
   );
 };
