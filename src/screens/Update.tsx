@@ -9,7 +9,7 @@ import {
 import React from 'react';
 import Input from '../components/Input';
 import Button from '../components/Button';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, doc, updateDoc } from 'firebase/firestore';
 import { database } from '../../App';
 import { showMessage } from 'react-native-flash-message';
 
@@ -23,26 +23,36 @@ interface IPros {
   user: any;
   navigation: any;
   route: any;
+  item: any;
 }
 
-const Create: React.FC<IPros> = ({ navigation, route, user }) => {
+const Update: React.FC<IPros> = ({ navigation, route, user, item }) => {
+  const { note } = route.params;
   const [isLoading, setIsLoading] = React.useState(false);
-  const [title, setTitle] = React.useState('');
-  const [description, setDescription] = React.useState('');
-  const [noteColor, setNoteColor] = React.useState('blue');
+  const [title, setTitle] = React.useState(note.title);
+  const [description, setDescription] = React.useState(note.description);
+  const [noteColor, setNoteColor] = React.useState(note.color);
 
-  const handleNoteCreate = async () => {
+  const handleNoteUpdate = async () => {
     setIsLoading(true);
     try {
-      await addDoc(collection(database, 'notes'), {
+      // await addDoc(collection(database, 'notes'), {
+      //   title,
+      //   description,
+      //   color: noteColor,
+      //   uid: user.uid,
+      // });
+      const docRef = await doc(database, 'notes', note.id);
+      const result = await updateDoc(docRef, {
         title,
         description,
         color: noteColor,
         uid: user.uid,
       });
+      console.log(result);
       setIsLoading(false);
       showMessage({
-        message: 'Note Created',
+        message: 'Note Updated',
         type: 'success',
       });
       navigation.goBack();
@@ -52,11 +62,12 @@ const Create: React.FC<IPros> = ({ navigation, route, user }) => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Create</Text>
+      <Text>Update Note</Text>
       <Input
         placeholder="title"
         onChangeText={(text) => setTitle(text)}
         autoCapitalize="none"
+        value={title}
       />
       <Input
         secureTextEntry
@@ -64,6 +75,7 @@ const Create: React.FC<IPros> = ({ navigation, route, user }) => {
         onChangeText={(text) => setDescription(text)}
         autoCapitalize="none"
         multiline={true}
+        value={description}
       />
       <Text style={styles.radioLabel}>Select Your Note Color</Text>
       {noteColorOptions.map((option, index) => {
@@ -95,8 +107,8 @@ const Create: React.FC<IPros> = ({ navigation, route, user }) => {
         <ActivityIndicator />
       ) : (
         <Button
-          title="Create"
-          onPress={handleNoteCreate}
+          title="Update"
+          onPress={handleNoteUpdate}
           customStyles={{
             alignSelf: 'center',
             marginVertical: 60,
@@ -108,7 +120,7 @@ const Create: React.FC<IPros> = ({ navigation, route, user }) => {
   );
 };
 
-export default Create;
+export default Update;
 
 const styles = StyleSheet.create({
   container: {

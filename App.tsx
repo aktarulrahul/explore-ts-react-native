@@ -22,6 +22,7 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import FlashMessage from 'react-native-flash-message';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import Update from './src/screens/Update';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDBuAqeFZbodh55Ys8Av_RlXLUALmms5KE',
@@ -80,7 +81,10 @@ export default function App() {
             <Stack.Screen name="Create" options={{ headerShown: false }}>
               {(props) => <Create {...props} user={user} />}
             </Stack.Screen>
-            <Stack.Screen name="Edit" component={Edit} />
+            {/* <Stack.Screen name="Update" options={{ headerShown: false }}>
+              {(props) => <Update {...props} user={user} />}
+            </Stack.Screen> */}
+            <Stack.Screen name="Update" component={Update} />
           </>
         ) : (
           <>

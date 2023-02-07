@@ -7,6 +7,7 @@ interface InputProps {
   onChangeText?: (text: string) => void;
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
   multiline?: boolean;
+  value?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -15,6 +16,7 @@ const Input: React.FC<InputProps> = ({
   onChangeText,
   autoCapitalize,
   multiline,
+  value,
 }) => {
   return (
     <TextInput
@@ -24,6 +26,7 @@ const Input: React.FC<InputProps> = ({
       onChangeText={onChangeText}
       autoCapitalize={autoCapitalize}
       multiline={multiline}
+      value={value || ''}
     />
   );
 };
