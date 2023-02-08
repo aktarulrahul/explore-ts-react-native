@@ -11,7 +11,15 @@ import Button from '../components/Button';
 import { signOut } from 'firebase/auth';
 import { auth, database } from '../../App';
 import { AntDesign } from '@expo/vector-icons';
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  query,
+  where,
+} from 'firebase/firestore';
+import { showMessage } from 'react-native-flash-message';
 
 interface IPros {
   user: any;
@@ -35,6 +43,22 @@ const Home: React.FC<IPros> = ({ user, navigation }) => {
       setNotes(notes);
     });
   }, []);
+
+  const handleDelete = async (note) => {
+    try {
+      const docRef = doc(database, 'notes', note.id);
+      await deleteDoc(docRef);
+      showMessage({
+        message: 'Note Deleted',
+        type: 'success',
+      });
+    } catch (error) {
+      showMessage({
+        message: 'Something went wrong',
+        type: 'danger',
+      });
+    }
+  };
   const noteFlatListRenderItem = ({ item }) => {
     return (
       <Pressable
@@ -43,8 +67,15 @@ const Home: React.FC<IPros> = ({ user, navigation }) => {
           navigation.navigate('Update', { note: item });
         }}
       >
-        <Text style={styles.itemText}>{item.title}</Text>
-        <Text style={styles.itemDescription}>{item.description}</Text>
+        <View style={styles.noteContainer}>
+          <View>
+            <Text style={styles.itemText}>{item.title}</Text>
+            <Text style={styles.itemDescription}>{item.description}</Text>
+          </View>
+          <Pressable onPress={() => handleDelete(item)}>
+            <Text>Delete</Text>
+          </Pressable>
+        </View>
       </Pressable>
     );
   };
@@ -93,6 +124,11 @@ const styles = StyleSheet.create({
     border: '1px solid black',
     // borderRadius: 20,
     padding: 10,
+  },
+  noteContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   itemText: {
     // textAlign: 'center',

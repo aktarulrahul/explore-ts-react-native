@@ -36,26 +36,17 @@ const Update: React.FC<IPros> = ({ navigation, route, user, item }) => {
   const handleNoteUpdate = async () => {
     setIsLoading(true);
     try {
-      // await addDoc(collection(database, 'notes'), {
-      //   title,
-      //   description,
-      //   color: noteColor,
-      //   uid: user.uid,
-      // });
-      const docRef = await doc(database, 'notes', note.id);
-      const result = await updateDoc(docRef, {
+      const docRef = doc(database, 'notes', note.id);
+      await updateDoc(docRef, {
         title,
         description,
         color: noteColor,
-        uid: user.uid,
       });
-      console.log(result);
-      setIsLoading(false);
       showMessage({
         message: 'Note Updated',
         type: 'success',
       });
-      navigation.goBack();
+      navigation.navigate('Home');
     } catch (error) {
       setIsLoading(false);
     }
